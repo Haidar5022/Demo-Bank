@@ -1,0 +1,108 @@
+<div class="page">
+
+  <!-- ============ Top Navbar ============ -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <button class="icon-btn menu-btn" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <span class="brand">DemoBank</span>
+    </div>
+    <div class="navbar-right">
+      <button class="icon-btn" aria-label="Search">🔍</button>
+      <button class="icon-btn" aria-label="Notifications">🔔</button>
+      <button class="icon-btn" aria-label="Settings">⚙️</button>
+      <button class="profile-btn">
+        <span class="avatar">🧑</span>
+        <span class="profile-name">John Doe</span>
+        <span class="chevron">▾</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ Edge-to-Edge Outer Box ============ -->
+  <div class="header-full-width-box">
+    <div class="header-inner">
+      <div class="breadcrumb">Home &gt; Maintenance Summary</div>
+
+      <div class="title-row">
+        <h1 class="page-title"><span class="back-arrow">←</span> Maintenance Summary</h1>
+        <button class="upload-btn">
+          <span class="upload-icon">⭱</span> Upload
+        </button>
+      </div>
+
+      <!-- Search + Sort Toolbar -->
+      <div class="toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            placeholder="Search Maintenance"
+            [(ngModel)]="searchTerm"
+          />
+        </div>
+
+        <div class="sort-box">
+          <span class="sort-label-static">Sort By</span>
+          <button class="sort-value" (click)="toggleSortMenu()">
+            {{ sortLabel }} <span class="chevron" [class.open]="sortMenuOpen">▾</span>
+          </button>
+          <div class="sort-menu" *ngIf="sortMenuOpen">
+            <button
+              type="button"
+              class="sort-option"
+              [class.active]="sortBy === 'relevance'"
+              (click)="chooseSort('relevance')"
+            >
+              Relevance
+            </button>
+            <button
+              type="button"
+              class="sort-option"
+              [class.active]="sortBy === 'az'"
+              (click)="chooseSort('az')"
+            >
+              <span class="sort-code">AZ</span> A-Z
+            </button>
+            <button
+              type="button"
+              class="sort-option"
+              [class.active]="sortBy === 'za'"
+              (click)="chooseSort('za')"
+            >
+              <span class="sort-code">ZA</span> Z-A
+            </button>
+          </div>
+        </div>
+
+        <button class="search-btn" (click)="onSearchClick()">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Cards Section ============ -->
+  <main class="cards-section">
+    <div class="card-grid">
+      <button
+        type="button"
+        class="maint-card"
+        *ngFor="let item of filteredItems"
+        [class.selected]="item.title === selectedTitle"
+        (click)="onCardClick(item)"
+      >
+        <img class="card-icon" [src]="item.icon" alt="" />
+        <span class="card-body">
+          <span class="card-title">{{ item.title }}</span>
+          <span class="card-desc">{{ item.description }}</span>
+        </span>
+      </button>
+
+      <p class="no-results" *ngIf="filteredItems.length === 0">
+        No maintenance items match "{{ searchTerm }}".
+      </p>
+    </div>
+  </main>
+</div>
